@@ -1,0 +1,153 @@
+---
+title: "HW1-abhishekdeore"
+author: "Abhishek Deore"
+format: html
+editor: visual
+---
+
+## Data Exploration in Python
+
+Data Exploration or sometimes also known as Exploratory Data Analysis (EDA) in Python is a critical step in the data analysis process. It is a technique used by data scientists to summarize and visualize key characteristics, patterns, and trends within a dataset. The primary goal of EDA is to gain a deep understanding of the data, generate hypotheses, and identify potential relationships between variables.
+
+### 3.1 Summary Statistics
+
+Summary statistics in Python refer to a set of descriptive statistics that provide a concise overview of a dataset's key characteristics. These statistics help data scientists quickly understand the central tendencies, spread, and distribution of data without the need for extensive data visualization.
+
+Let's see few examples of summary statistics.
+
+1.  **Mean :** The mean, often referred to as the average, is the sum of all data points divided by the total number of data points.
+
+```{python}
+import numpy as np
+import pandas as pd
+
+data = [1, 2, 3, 4, 5]
+mean = np.mean(data)  # Using NumPy
+df = pd.DataFrame(data)
+mean_df = df.mean()   # Using Pandas for DataFrame
+
+```
+
+2.  **Median :** The median is the middle value in a sorted dataset or the average of the two middle values in the case of an even number of data points.
+
+```{python}
+import numpy as np
+import pandas as pd
+
+data = [1, 2, 3, 4, 5]
+median = np.median(data)  # Using NumPy
+df = pd.DataFrame(data)
+median_df = df.median()   # Using Pandas for DataFrame
+
+```
+
+3.  **Standard Deviation :** The standard deviation measures the dispersion or spread of data points around the mean. A low standard deviation indicates that data points are close to the mean, while a high standard deviation suggests greater variability.
+
+```{python}
+import numpy as np
+import pandas as pd
+
+data = [1, 2, 3, 4, 5]
+std_deviation = np.std(data)  # Using NumPy
+df = pd.DataFrame(data)
+std_deviation_df = df.std()   # Using Pandas for DataFrame
+
+```
+
+Now, we will see how to load the data-set using pandas and perform the Exploratory Data Analysis on that data-set.
+
+First, we will load the **iris data-set** from the ULI Machine Learning repository.
+
+**pandas.read_csv("path to dataset")** is the function that we use in order to load the data-set and we will store it in the **df** variable.
+
+**df.head()** is used to display the first 5 rows of the data-set.
+
+**df.tail()** is used to display the last 5 rows of the data-set.
+
+```{python}
+import pandas as pd
+
+df = pd.read_csv("http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data")
+df.head()
+```
+
+Second, we will check the data-type of the columns in our data-set for which we will use the command **df.dtypes**
+
+```{python}
+df.dtypes
+```
+
+Third, we will look at the Summary Statistics of our data. We will use the function **df.describe()** for this purpose.
+
+```{python}
+df.describe()
+```
+
+For counting the frequency for each of the "**0.2**" columns' distinct values, we will use the function **.value_counts().**
+
+```{python}
+df["0.2"].value_counts()
+```
+
+Fourth, for the multivariate statistics we can compute the covariance and correlation between 2 attributes as follows.
+
+```{python}
+print("covariance is given as:")
+df.cov
+```
+
+```{python}
+print("correlation is given as :")
+df.corr
+
+```
+
+### 3.2 Data-Visualization
+
+Data visualization is the graphical representation of data to help people understand its patterns, trends, and insights. It involves creating visual representations such as charts, graphs, plots, and maps to make complex data more understandable and accessible. Data visualization is a critical tool in data analysis, as it allows analysts and decision-makers to explore data, detect patterns, and communicate findings effectively.
+
+Python offers several libraries for data visualization, with two of the most popular ones being Matplotlib and Seaborn.
+
+Lets have a look at some of the visualizations from the **iris** data-set.
+
+1.  We'll showcase a histogram of all the attributes by dividing it into eight distinct bins and tallying the occurrence within each bin.
+
+    ```{python}
+    #renaming the columns
+    df.columns = ['sepal length', 'sepal width', 'petal length', 'petal width', 'class']
+    df
+
+    #plotting the histogram
+    import matplotlib.pyplot as plt
+    df.hist(bins=19)
+    plt.show()
+    ```
+
+2.  A scatter plot is used to show the joint distribution of the data points.
+
+    ```{python}
+
+    import matplotlib.pyplot as plt
+    plt.figure(figsize=(8,8))
+    plt.scatter(df["sepal length"],df["sepal width"])
+    plt.show()
+    ```
+
+3.  Parallel coordinates allow you to exhibit all data points at once. In this visualization method, there is a coordinate axis for each attribute, but they run parallel to each other rather than intersecting at right angles, as in conventional charts. Additionally, objects are depicted as lines instead of individual points. In the provided example, you can discern the distribution of values for each class by using distinct colors.
+
+    ```{python}
+    from pandas.plotting import parallel_coordinates
+
+
+    plt.figure(figsize=(8,8))  # Adjust the figure size if needed
+    parallel_coordinates(df,"class" , colormap='viridis')# Choose an appropriate colormap
+    plt.show()
+    ```
+
+4.  A boxplot can also be used to show the distribution of values for each attribute.
+
+```{python}
+plt.figure(figsize=(10, 10))
+df.boxplot()
+plt.show()
+```
